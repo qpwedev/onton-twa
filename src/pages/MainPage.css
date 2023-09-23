@@ -1,0 +1,68 @@
+.main-page-header {
+}
+
+.main-page-button {
+  all: unset;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal-width columns */
+  grid-gap: 10px; /* Space between grid items */
+}
+
+.grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid black;
+  text-align: center;
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.invisible {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  cursor: default;
+}
+
+.no-border {
+  border: none;
+}
+
+.erase-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  transition: background-color 0.25s ease; /* Smooth Transition */
+}
+
+.circle.disabled {
+  background-color: #fff; /* Not coloured */
+}
+
+.circle.enabled {
+  background-color: rgb(81, 81, 209); /* Coloured inside */
+}
+
+.main-page-create-link {
+  text-decoration: none !important;
+  color: #000;
+}
+
+a {
+    text-decoration: none;
+    color: #333333; /* Dark Grey Color */
+  }
