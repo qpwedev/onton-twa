@@ -50,22 +50,43 @@ export default function MainPage() {
     <div className="main-page-wrapper">
       <TonConnectButton />
       <div className="numpad">
-        <Header enabledDots={enabledDots} />
+        <Header wallet={wallet} enabledDots={enabledDots} />
         <NumPad setEnabledDots={setEnabledDots} />
       </div>
     </div>
   );
 }
 
-function Header({ enabledDots }: { enabledDots: number[] }) {
+function Header({
+  enabledDots,
+  wallet,
+}: {
+  enabledDots: number[];
+  wallet: string;
+}) {
   return (
     <div className="numpad-header">
       <div className="enter-code-title">Enter Code</div>
       <Dots enabledDots={enabledDots} />
       <div className="main-page-create-link">
-        <Link to="/create" className="create-new-room-link">
-          Create new room
-        </Link>
+        {wallet === "" || wallet === null || wallet === undefined ? (
+          <div
+            style={{
+              cursor: "pointer",
+              userSelect: "none",
+            }}
+            onClick={() => {
+              alert("You should connect your TON wallet first");
+            }}
+            className="create-new-room-link"
+          >
+            Create new room
+          </div>
+        ) : (
+          <Link to="/create" className="create-new-room-link">
+            Create new room
+          </Link>
+        )}
       </div>
     </div>
   );

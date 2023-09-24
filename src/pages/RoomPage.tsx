@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react";
+import { memo, useCallback, useContext, useEffect, useState } from "react";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { RoomContext } from "../contexts/RoomContext";
 import { Member as MemberType, MembersListProps, Room } from "../types";
@@ -6,7 +6,6 @@ import { randomEmoji } from "../utils";
 import {
   TonConnectButton,
   useTonConnectUI,
-  useTonWallet,
 } from "@tonconnect/ui-react";
 import { HighLoadAddress, ServerURL } from "../constants";
 
@@ -106,7 +105,7 @@ export default function RoomPage() {
           <div>Members: {room.Members.length}</div>
         </div>
       </div>
-      {room?.admin_wallet === wallet && <AdminControls room={room} />}
+      {room?.admin_wallet !== wallet && <AdminControls room={room} />}
 
       <MembersList members={room.Members} />
     </div>
@@ -133,14 +132,14 @@ function AdminControls({ room }: { room: Room }) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        alert("Successfuly distributed");
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  function handleClick() {
+  const handleSubmit = useCallback(() => {
     tonConnectUi
       .sendTransaction(tx)
       .then((res) => {
@@ -152,35 +151,80 @@ function AdminControls({ room }: { room: Room }) {
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, [tonConnectUi, tx]);
 
   function handleAmountChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.value.length > 6) {
+    const inputValue = e.target.value;
+  
+    if (inputValue.length > 6 || !/^[\d.,]*$/.test(inputValue)) {
       return;
     }
-
-    const newAmount = Number.parseFloat(e.target.value);
-    splittedValue = room.Members.length * (newAmount >= 0 ? newAmount : 0);
+  
+    // Allow empty strings, set amount and tx to 0
+    if (inputValue === "") {
+      setAmount(0);
+      setTx((prevTx) => ({ ...prevTx, messages: [{ ...prevTx.messages[0], amount: 0 }] }));
+      return;
+    }
+  
+    // Extract numbers and a decimal point from the string
+    const numericalValue = inputValue.replace(/,/g, '.').match(/(\d*\.?\d*)/)[0];
+  
+    // Parse to float and ensure it's a number
+    const newAmount = parseFloat(numericalValue) || 0;
+    
+    splittedValue = room.Members.length * Math.max(newAmount, 0);
     setAmount(newAmount);
-    const newTx = { ...tx };
-    newTx.messages[0].amount = splittedValue * 1e9;
-    setTx(newTx);
+    setTx((prevTx) => ({ ...prevTx, messages: [{ ...prevTx.messages[0], amount: splittedValue * 1e9 }] }));
   }
+  
+  
+
+  useEffect(() => {
+    function configureTelegram() {
+      if (window.Telegram === undefined) {
+        return;
+      }
+
+      window.Telegram.WebApp.MainButton.onClick(handleSubmit);
+      window.Telegram.WebApp.MainButton.setText("Send");
+    }
+
+    function cleanUpTelegram() {
+      if (window.Telegram === undefined) {
+        return;
+      }
+
+      window.Telegram.WebApp.MainButton.offClick(handleSubmit);
+      window.Telegram.WebApp.MainButton.hide();
+    }
+
+    configureTelegram();
+    return cleanUpTelegram;
+  }, [handleSubmit]);
+
+  useEffect(() => {
+    if (amount > 0) {
+      window.Telegram.WebApp.MainButton.show();
+    } else {
+      window.Telegram.WebApp.MainButton.hide();
+    }
+  }, [amount]);
 
   return (
     <div className="room-page-admin-controls">
       <input
         className="room-page-admin-controls-amount-input"
-        type="tel"
+        type="text"
         value={amount}
         placeholder="TON per Member"
         onChange={handleAmountChange}
+        disabled={room.Members.length === 0}
       />
 
       <div className="room-page-admin-controls-split-sum">
         Total: {splittedValue} TON
       </div>
-      {/* <button onClick={handleClick}>Send transaction</button> */}
     </div>
   );
 }
