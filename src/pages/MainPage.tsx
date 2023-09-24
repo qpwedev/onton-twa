@@ -64,7 +64,7 @@ function Header({ enabledDots }: { enabledDots: number[] }) {
       <div className="enter-code-title">Enter Code</div>
       <Dots enabledDots={enabledDots} />
       <div className="main-page-create-link">
-        <Link to="/create">Create new room</Link>
+        <Link to="/create" className="create-new-room-link">Create new room</Link>
       </div>
     </div>
   );

@@ -12,9 +12,6 @@
 
 .grid-item:active {
   transform: scale(0.95);
-  /* Scales down the element */
-
-  /* color  */
   color: #286BEB;
 }
 
@@ -29,8 +26,11 @@
   font-size: 24px;
   cursor: pointer;
   user-select: none;
-  /* shadow */
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-new-room-link {
+  color: #286BEB;
 }
 
 .invisible {
@@ -73,12 +73,6 @@
   text-decoration: none !important;
   font-weight: 200;
   font-size: 0.8rem;
-}
-
-a {
-  text-decoration: none;
-  color: #286BEB;
-  /* Dark Grey Color */
 }
 
 .enter-code-title {
