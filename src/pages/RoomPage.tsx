@@ -6,71 +6,71 @@ import { Member as MemberType } from "../types";
 import "./RoomPage.css";
 import { randomEmoji } from "../utils";
 
-const mockMembers = [
-  {
-    id: 1,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:09.686Z",
-    updatedAt: "2023-09-23T17:07:09.686Z",
-  },
-  {
-    id: 2,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:10.847Z",
-    updatedAt: "2023-09-23T17:07:10.847Z",
-  },
-  {
-    id: 3,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:11.196Z",
-    updatedAt: "2023-09-23T17:07:11.196Z",
-  },
-  {
-    id: 4,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:11.426Z",
-    updatedAt: "2023-09-23T17:07:11.426Z",
-  },
-  {
-    id: 5,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:11.662Z",
-    updatedAt: "2023-09-23T17:07:11.662Z",
-  },
-  {
-    id: 6,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:11.886Z",
-    updatedAt: "2023-09-23T17:07:11.886Z",
-  },
-  {
-    id: 7,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:12.103Z",
-    updatedAt: "2023-09-23T17:07:12.103Z",
-  },
-  {
-    id: 8,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:12.363Z",
-    updatedAt: "2023-09-23T17:07:12.363Z",
-  },
-  {
-    id: 9,
-    address: "0x1234567890123456789012345678901234567890",
-    roomId: 1,
-    createdAt: "2023-09-23T17:07:12.549Z",
-    updatedAt: "2023-09-23T17:07:12.549Z",
-  },
-];
+// const mockMembers = [
+//   {
+//     id: 1,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:09.686Z",
+//     updatedAt: "2023-09-23T17:07:09.686Z",
+//   },
+//   {
+//     id: 2,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:10.847Z",
+//     updatedAt: "2023-09-23T17:07:10.847Z",
+//   },
+//   {
+//     id: 3,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:11.196Z",
+//     updatedAt: "2023-09-23T17:07:11.196Z",
+//   },
+//   {
+//     id: 4,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:11.426Z",
+//     updatedAt: "2023-09-23T17:07:11.426Z",
+//   },
+//   {
+//     id: 5,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:11.662Z",
+//     updatedAt: "2023-09-23T17:07:11.662Z",
+//   },
+//   {
+//     id: 6,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:11.886Z",
+//     updatedAt: "2023-09-23T17:07:11.886Z",
+//   },
+//   {
+//     id: 7,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:12.103Z",
+//     updatedAt: "2023-09-23T17:07:12.103Z",
+//   },
+//   {
+//     id: 8,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:12.363Z",
+//     updatedAt: "2023-09-23T17:07:12.363Z",
+//   },
+//   {
+//     id: 9,
+//     address: "0x1234567890123456789012345678901234567890",
+//     roomId: 1,
+//     createdAt: "2023-09-23T17:07:12.549Z",
+//     updatedAt: "2023-09-23T17:07:12.549Z",
+//   },
+// ];
 
 export default function RoomPage() {
   const roomId = window.location.pathname.split("/")[2];
@@ -83,13 +83,13 @@ export default function RoomPage() {
     <div className="room-page-wrapper">
       <div className="room-page-name-wrapper">
         <div className="room-page-name">{room?.name}</div>
-        <div className="room-members-amount">{mockMembers.length} members</div>
+        <div className="room-members-amount">{room.Members.length} members</div>
       </div>
       {room?.admin_wallet === wallet && (
         <div className="room-page-admin">You are admin</div>
       )}
 
-      <MembersList members={mockMembers} />
+      <MembersList members={room.Members} />
     </div>
   );
 }
