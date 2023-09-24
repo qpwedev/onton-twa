@@ -19,3 +19,7 @@ export type Member = {
 export type Schema = {
   room: Room;
 };
+
+export interface MembersListProps {
+  members: Member[] | null;
+}

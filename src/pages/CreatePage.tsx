@@ -73,9 +73,9 @@ export default function CreatePage() {
           />
         </div>
 
-        {/* <button type="submit" onClick={handleSubmit}>
+        <button type="submit" onClick={handleSubmit}>
           Create
-        </button> */}
+        </button>
       </div>
     </div>
   );
