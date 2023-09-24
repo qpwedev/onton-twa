@@ -1,13 +1,12 @@
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
+import { FlexBoxRow } from "../components/styled/styled";
 
 import "./MainPage.css";
 import { useContext, useState } from "react";
 import { Schema } from "../types";
 import { RoomContext } from "../contexts/RoomContext";
-import logo from "../assets/onton-logo.svg";
+import { useTonConnect } from "../hooks/useTonConnect";
 
 const serverUrl = "https://7a21-185-176-136-228.ngrok-free.app";
 
@@ -17,22 +16,28 @@ export default function MainPage() {
     return enabledDots.findIndex((el) => el === -1) === -1;
   }
 
+  const { wallet } = useTonConnect();
+
   const navigate = useNavigate();
 
-  const { room, setRoom } = useContext(RoomContext);
+  const { setRoom } = useContext(RoomContext);
 
   if (isFilled()) {
     const password = enabledDots.join("");
     fetch(`${serverUrl}/room/password/${password}`, {
+      method: "POST",
       headers: {
         "ngrok-skip-browser-warning": "true",
       },
+      body: JSON.stringify({
+        member: wallet,
+      }),
     })
       .then((res) => res.json())
       .then((res: Schema) => {
         console.log(res);
         if (res.room.id) {
-            setRoom(res.room)
+          setRoom(res.room);
           navigate(`/room/${res.room.id}`);
         }
       })
