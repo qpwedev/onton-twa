@@ -59,16 +59,24 @@ export default function CreatePage() {
   return (
     <div className="create-page-wrapper">
       <TonConnectButton />
-      <a className="create-page-title">Create New Room</a>
-      <input
-        value={roomName}
-        type="text"
-        placeholder="Enter room name"
-        onChange={handleRoomNameChange}
-      />
-      <button type="submit" onClick={handleSubmit}>
-        Create
-      </button>
+
+      <div className="create-page-wrapper-data">
+        <a className="enter-code-title">Create Room</a>
+
+        <div className="input-page-name-wrapper">
+          <input
+            value={roomName}
+            type="text"
+            placeholder="My Pretty Room Name"
+            onChange={handleRoomNameChange}
+            className="create-page-name-input"
+          />
+        </div>
+
+        {/* <button type="submit" onClick={handleSubmit}>
+          Create
+        </button> */}
+      </div>
     </div>
   );
 }

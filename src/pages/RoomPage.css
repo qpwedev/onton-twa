@@ -1,7 +1,6 @@
 /* text */
 .room-page-no-members {}
 
-.room-page-wrapper {}
 
 .room-page-name {}
 
@@ -17,8 +16,14 @@ a {
 
 
 .room-page-wrapper {
-    padding: 2rem;
+    padding: 0 1rem;
 
+}
+
+.tonconnect-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .room-members-amount {
@@ -28,6 +33,7 @@ a {
 
 
 .room-page-name-wrapper {
+    margin-top: 1rem;
     padding: 1rem;
     border-radius: 10px;
     display: flex;

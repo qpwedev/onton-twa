@@ -16,7 +16,9 @@ export default function RoomPage() {
 
   return (
     <div className="room-page-wrapper">
+      <div className="tonconnect-btn">
         <TonConnectButton />
+      </div>
       <div className="room-page-name-wrapper">
         <div className="room-page-name">{room?.name}</div>
         <div className="room-members-amount">{room.Members.length} members</div>
