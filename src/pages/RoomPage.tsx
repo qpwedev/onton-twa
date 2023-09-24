@@ -24,7 +24,7 @@ export default function RoomPage() {
         <div className="room-page-name">{room?.name}</div>
         <div className="room-members-amount">{room.Members.length} members</div>
       </div>
-      {room?.admin_wallet === wallet && <AdminControls room={room} />}
+      {room?.admin_wallet !== wallet && <AdminControls room={room} />}
 
       <MembersList members={room.Members} />
     </div>
@@ -33,11 +33,9 @@ export default function RoomPage() {
 
 function AdminControls({ room }: { room: Room }) {
   const [amount, setAmount] = useState(0);
-  const splittedValue = room.Members.length * (amount >= 0 ? amount : 0)
+  const splittedValue = room.Members.length * (amount >= 0 ? amount : 0);
 
-  function handleClick() {
-    
-  }
+  function handleClick() {}
 
   return (
     <div className="room-page-admin-controls">
@@ -46,12 +44,19 @@ function AdminControls({ room }: { room: Room }) {
         type="number"
         step={0.0001}
         value={amount}
-        onChange={(e) => setAmount(Number.parseFloat(e.target.value))}
+        placeholder="TON per Member"
+        onChange={(e) => {
+          if (e.target.value.length <= 6) {
+            setAmount(Number.parseFloat(e.target.value));
+          }
+        }}
       />
+
       <div className="room-page-admin-controls-split-sum">
-        {splittedValue}
+        Total: {splittedValue} TON
       </div>
-      <button onClick={handleClick}>Send</button>
+
+      {/* <button onClick={handleClick}>Send</button> */}
     </div>
   );
 }

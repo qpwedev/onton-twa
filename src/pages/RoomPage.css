@@ -80,3 +80,37 @@ a {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 
 }
+
+.room-page-admin-controls {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.room-page-admin-controls-split-sum {
+    /* margin: 1rem; */
+    color: rgb(118, 118, 118);
+
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+
+
+.room-page-admin-controls-amount-input {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+    width: 50%;
+    box-sizing: border-box;
+}
