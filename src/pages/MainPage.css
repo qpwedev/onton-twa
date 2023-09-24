@@ -1,28 +1,36 @@
-.main-page-header {
-}
-
 .main-page-button {
   all: unset;
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal-width columns */
-  grid-gap: 10px; /* Space between grid items */
+  grid-template-columns: repeat(3, 1fr);
+  /* Creates 3 equal-width columns */
+  grid-gap: 2rem;
+  /* Space between grid items */
+}
+
+.grid-item:active {
+  transform: scale(0.95);
+  /* Scales down the element */
+
+  /* color  */
+  color: #286BEB;
 }
 
 .grid-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 4.5rem;
+  height: 4.5rem;
   border-radius: 50%;
-  border: 1px solid black;
   text-align: center;
   font-size: 24px;
   cursor: pointer;
   user-select: none;
+  /* shadow */
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .invisible {
@@ -30,10 +38,12 @@
   padding: 0;
   border: none;
   cursor: default;
+  box-shadow: none;
 }
 
 .no-border {
   border: none;
+  box-shadow: none;
 }
 
 .erase-icon {
@@ -45,24 +55,60 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 1px solid #000;
-  transition: background-color 0.25s ease; /* Smooth Transition */
+  transition: background-color 0.25s ease;
+  /* Smooth Transition */
 }
 
 .circle.disabled {
-  background-color: #fff; /* Not coloured */
+  background-color: #797979;
+  /* Not coloured */
 }
 
 .circle.enabled {
-  background-color: rgb(81, 81, 209); /* Coloured inside */
+  background-color: #286BEB;
+  /* Coloured inside */
 }
 
 .main-page-create-link {
   text-decoration: none !important;
-  color: #000;
+  font-weight: 200;
+  font-size: 0.8rem;
 }
 
 a {
-    text-decoration: none;
-    color: #333333; /* Dark Grey Color */
-  }
+  text-decoration: none;
+  color: #286BEB;
+  /* Dark Grey Color */
+}
+
+.enter-code-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+#ton-connect-button {
+  margin-top: 1rem;
+}
+
+.main-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.numpad {
+  margin-top: 5rem;
+
+}
+
+
+.numpad-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}

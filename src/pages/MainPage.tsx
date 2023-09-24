@@ -6,6 +6,7 @@ import { FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
 import "./MainPage.css";
 import { useState } from "react";
 import { Schema } from "../types";
+import logo from "../assets/onton-logo.svg";
 
 const serverUrl = "https://7a21-185-176-136-228.ngrok-free.app";
 
@@ -37,26 +38,25 @@ export default function MainPage() {
   }
 
   return (
-    <MainPageWrapper>
-      <div className="main-page-header">ONTON</div>
+    <div className="main-page-wrapper">
       <TonConnectButton />
-      <FlexBoxCol>
+      <div className="numpad">
         <Header enabledDots={enabledDots} />
         <NumPad setEnabledDots={setEnabledDots} />
-      </FlexBoxCol>
-    </MainPageWrapper>
+      </div>
+    </div>
   );
 }
 
 function Header({ enabledDots }: { enabledDots: number[] }) {
   return (
-    <FlexBoxCol>
-      <div>Enter Code</div>
+    <div className="numpad-header">
+      <div className="enter-code-title">Enter Code</div>
       <Dots enabledDots={enabledDots} />
       <div className="main-page-create-link">
         <Link to="/create">Create new room</Link>
       </div>
-    </FlexBoxCol>
+    </div>
   );
 }
 
@@ -155,10 +155,3 @@ function NumPad({ setEnabledDots }: { setEnabledDots: Function }) {
     </div>
   );
 }
-
-const MainPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-`;

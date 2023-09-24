@@ -8,4 +8,13 @@
   max-width: 900px;
   margin: 0 auto;
   font-family: "Inter", sans-serif;
+  height: 100vh;
 }
+
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+
