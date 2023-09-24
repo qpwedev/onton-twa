@@ -28,17 +28,18 @@ export default function MainPage() {
       method: "POST",
       headers: {
         "ngrok-skip-browser-warning": "true",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        member: wallet,
+        address: wallet,
       }),
     })
       .then((res) => res.json())
       .then((res: Schema) => {
         console.log(res);
-        if (res.room.id) {
-          setRoom(res.room);
-          navigate(`/room/${res.room.id}`);
+        if (res.newRoom.id) {
+          setRoom(res.newRoom);
+          navigate(`/room/${res.newRoom.id}`);
         }
       })
       .catch((err) => {
