@@ -1,9 +1,15 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const RoomContext = createContext({ room: null, setRoom: null });
 
 export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
-  const [room, setRoom] = useState(null);
+  const initialState = JSON.parse(localStorage.getItem("room")) || {};
+
+  const [room, setRoom] = useState(initialState);
+
+  useEffect(() => {
+    localStorage.setItem('room', JSON.stringify(room));
+  }, [room]);
 
   return (
     <RoomContext.Provider value={{ room, setRoom }}>

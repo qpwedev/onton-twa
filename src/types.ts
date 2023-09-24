@@ -17,5 +17,5 @@ export type Member = {
 };
 
 export type Schema = {
-  newRoom: Room;
+  room: Room;
 };

@@ -7,22 +7,25 @@ import { RoomProvider } from "./contexts/RoomContext";
 
 import "./App.css";
 import CreatePage from "./pages/CreatePage";
+import { AdminProvider } from "./contexts/AdminContext";
 
 function App() {
   const { network } = useTonConnect();
 
   return (
-    <RoomProvider>
-      <div className="app-wrapper">
-        <Router>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="create" element={<CreatePage />} />
-            <Route path="room/:id" element={<RoomPage />} />
-          </Routes>
-        </Router>
-      </div>
-    </RoomProvider>
+    <AdminProvider>
+      <RoomProvider>
+        <div className="app-wrapper">
+          <Router>
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="create" element={<CreatePage />} />
+              <Route path="room/:id" element={<RoomPage />} />
+            </Routes>
+          </Router>
+        </div>
+      </RoomProvider>
+    </AdminProvider>
   );
 }
 

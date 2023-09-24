@@ -7,8 +7,7 @@ import { useContext, useState } from "react";
 import { Schema } from "../types";
 import { RoomContext } from "../contexts/RoomContext";
 import { useTonConnect } from "../hooks/useTonConnect";
-
-const serverUrl = "https://7a21-185-176-136-228.ngrok-free.app";
+import { ServerURL } from "../constants";
 
 export default function MainPage() {
   const [enabledDots, setEnabledDots] = useState([-1, -1, -1, -1, -1, -1]);
@@ -24,7 +23,7 @@ export default function MainPage() {
 
   if (isFilled()) {
     const password = enabledDots.join("");
-    fetch(`${serverUrl}/room/password/${password}`, {
+    fetch(`${ServerURL}/room/password/${password}`, {
       method: "POST",
       headers: {
         "ngrok-skip-browser-warning": "true",
@@ -37,9 +36,9 @@ export default function MainPage() {
       .then((res) => res.json())
       .then((res: Schema) => {
         console.log(res);
-        if (res.newRoom.id) {
-          setRoom(res.newRoom);
-          navigate(`/room/${res.newRoom.id}`);
+        if (res.room.id) {
+          setRoom(res.room);
+          navigate(`/room/${res.room.id}`);
         }
       })
       .catch((err) => {
