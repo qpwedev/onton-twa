@@ -44,6 +44,10 @@ export default function CreatePage() {
       });
   }
 
+  useEffect(() => {
+    if (roomName.length > 0) window.Telegram.WebApp.MainButton.show();
+  }, [roomName]);
+
   function handleSubmit() {
     if (!(roomName.length > 0)) {
       return;
@@ -66,6 +70,9 @@ export default function CreatePage() {
         navigate("/");
       });
 
+      window.Telegram.WebApp.MainButton.onClick(handleSubmit);
+
+      window.Telegram.WebApp.MainButton.setText("Create");
       window.Telegram.WebApp.BackButton.show();
     }
 
@@ -74,6 +81,13 @@ export default function CreatePage() {
         return;
       }
 
+      window.Telegram.WebApp.BackButton.offClick(() => {
+        navigate("/");
+      });
+      window.Telegram.WebApp.MainButton.offClick(() => {
+        handleSubmit();
+      });
+      window.Telegram.WebApp.MainButton.hide();
       window.Telegram.WebApp.BackButton.hide();
     }
 
@@ -98,10 +112,6 @@ export default function CreatePage() {
             className="create-page-name-input"
           />
         </div>
-
-        <button type="submit" onClick={handleSubmit}>
-          Create
-        </button>
       </div>
     </div>
   );

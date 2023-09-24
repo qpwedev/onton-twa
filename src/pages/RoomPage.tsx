@@ -79,6 +79,9 @@ export default function RoomPage() {
         return;
       }
 
+      window.Telegram.WebApp.BackButton.offClick(() => {
+        navigate("/");
+      });
       window.Telegram.WebApp.BackButton.hide();
     }
 
