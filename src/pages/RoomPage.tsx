@@ -2,16 +2,28 @@ import { useContext, useState } from "react";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { RoomContext } from "../contexts/RoomContext";
 import { Member as MemberType, Room } from "../types";
+import { randomEmoji } from "../utils";
+import {
+  TonConnectButton,
+  useTonConnectUI,
+  useTonWallet,
+} from "@tonconnect/ui-react";
+import { HighLoadAddress } from "../constants";
 
 import "./RoomPage.css";
-import { randomEmoji } from "../utils";
-import { TonConnectButton } from "@tonconnect/ui-react";
-import { ServerURL } from "../constants";
+
+const defaultTx = {
+  validUntil: Math.floor(Date.now() / 1000) + 600, // unix epoch seconds
+  messages: [
+    {
+      address: HighLoadAddress,
+      amount: 0,
+    },
+  ],
+};
 
 export default function RoomPage() {
-  const roomId = window.location.pathname.split("/")[2];
-
-  const { room, setRoom } = useContext(RoomContext);
+  const { room } = useContext(RoomContext);
 
   const { wallet } = useTonConnect();
 
@@ -32,31 +44,41 @@ export default function RoomPage() {
 }
 
 function AdminControls({ room }: { room: Room }) {
+  const [tx, setTx] = useState(defaultTx);
+  const [tonConnectUi] = useTonConnectUI();
   const [amount, setAmount] = useState(0);
-  const splittedValue = room.Members.length * (amount >= 0 ? amount : 0);
+  let splittedValue = room.Members.length * (amount >= 0 ? amount : 0);
 
-  function handleClick() {}
+  function handleClick() {
+    console.log(tx);
+    tonConnectUi.sendTransaction(tx);
+  }
+
+  function handleAmountChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.value.length > 6) {
+        return;
+    }
+
+    const newAmount = Number.parseFloat(e.target.value);
+    splittedValue = room.Members.length * (newAmount >= 0 ? newAmount : 0);
+    setAmount(newAmount);
+    const newTx = { ...tx };
+    newTx.messages[0].amount = splittedValue * 1e9;
+    setTx(newTx);
+  }
 
   return (
     <div className="room-page-admin-controls">
       <input
         className="room-page-admin-controls-amount-input"
         type="number"
-        step={0.0001}
         value={amount}
         placeholder="TON per Member"
-        onChange={(e) => {
-          if (e.target.value.length <= 6) {
-            setAmount(Number.parseFloat(e.target.value));
-          }
-        }}
+        onChange={handleAmountChange}
       />
 
-      <div className="room-page-admin-controls-split-sum">
-        Total: {splittedValue} TON
-      </div>
-
-      {/* <button onClick={handleClick}>Send</button> */}
+      <div className="room-page-admin-controls-split-sum">Total: {splittedValue} TON</div>
+      <button onClick={handleClick}>Send transaction</button>
     </div>
   );
 }
