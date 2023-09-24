@@ -1,0 +1,22 @@
+/* text */
+.room-page-no-members {
+
+}
+
+.room-page-wrapper {
+    
+}
+
+.room-page-name {
+    
+}
+
+.room-page-member {
+    display: flex;
+    gap: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}

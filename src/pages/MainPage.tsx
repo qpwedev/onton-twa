@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
 
 import "./MainPage.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Schema } from "../types";
+import { RoomContext } from "../contexts/RoomContext";
 import logo from "../assets/onton-logo.svg";
 
 const serverUrl = "https://7a21-185-176-136-228.ngrok-free.app";
@@ -18,6 +19,8 @@ export default function MainPage() {
 
   const navigate = useNavigate();
 
+  const { room, setRoom } = useContext(RoomContext);
+
   if (isFilled()) {
     const password = enabledDots.join("");
     fetch(`${serverUrl}/room/password/${password}`, {
@@ -29,6 +32,7 @@ export default function MainPage() {
       .then((res: Schema) => {
         console.log(res);
         if (res.room.id) {
+            setRoom(res.room)
           navigate(`/room/${res.room.id}`);
         }
       })
