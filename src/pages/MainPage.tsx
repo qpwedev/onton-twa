@@ -43,6 +43,14 @@ export default function MainPage() {
       })
       .catch((err) => {
         console.log(err);
+
+        const circles = document.querySelectorAll(".circle");
+        circles.forEach((circle) => circle.classList.add("error"));
+
+        setTimeout(() => {
+          circles.forEach((circle) => circle.classList.remove("error"));
+          setEnabledDots([-1, -1, -1, -1, -1, -1]);
+        }, 1000);
       });
   }
 

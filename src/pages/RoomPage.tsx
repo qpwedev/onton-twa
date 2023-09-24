@@ -3,10 +3,7 @@ import { useTonConnect } from "../hooks/useTonConnect";
 import { RoomContext } from "../contexts/RoomContext";
 import { Member as MemberType, MembersListProps, Room } from "../types";
 import { randomEmoji } from "../utils";
-import {
-  TonConnectButton,
-  useTonConnectUI,
-} from "@tonconnect/ui-react";
+import { TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
 import { HighLoadAddress, ServerURL } from "../constants";
 
 import "./RoomPage.css";
@@ -105,7 +102,7 @@ export default function RoomPage() {
           <div>Members: {room.Members.length}</div>
         </div>
       </div>
-      {room?.admin_wallet !== wallet && <AdminControls room={room} />}
+      {room?.admin_wallet === wallet && <AdminControls room={room} />}
 
       <MembersList members={room.Members} />
     </div>
@@ -143,10 +140,7 @@ function AdminControls({ room }: { room: Room }) {
     tonConnectUi
       .sendTransaction(tx)
       .then((res) => {
-        setTimeout(
-          () => sendDistributeRequest(tx.messages[0].amount / 1e9),
-          10000
-        );
+        setTimeout(() => sendDistributeRequest(tx.messages[0].amount), 10000);
       })
       .catch((err) => {
         console.log(err);
@@ -154,31 +148,23 @@ function AdminControls({ room }: { room: Room }) {
   }, [tonConnectUi, tx]);
 
   function handleAmountChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const inputValue = e.target.value;
-  
-    if (inputValue.length > 6 || !/^[\d.,]*$/.test(inputValue)) {
-      return;
+    setAmount(e.target.value);
+
+    try {
+      const newAmount = Number.parseFloat(e.target.value);
+
+      if (Number.isNaN(newAmount)) {
+        return;
+      }
+
+      splittedValue = room.Members.length * (newAmount >= 0 ? newAmount : 0);
+      const newTx = { ...tx };
+      newTx.messages[0].amount = splittedValue;
+      setTx(newTx);
+    } catch (err) {
+      console.log(err);
     }
-  
-    // Allow empty strings, set amount and tx to 0
-    if (inputValue === "") {
-      setAmount(0);
-      setTx((prevTx) => ({ ...prevTx, messages: [{ ...prevTx.messages[0], amount: 0 }] }));
-      return;
-    }
-  
-    // Extract numbers and a decimal point from the string
-    const numericalValue = inputValue.replace(/,/g, '.').match(/(\d*\.?\d*)/)[0];
-  
-    // Parse to float and ensure it's a number
-    const newAmount = parseFloat(numericalValue) || 0;
-    
-    splittedValue = room.Members.length * Math.max(newAmount, 0);
-    setAmount(newAmount);
-    setTx((prevTx) => ({ ...prevTx, messages: [{ ...prevTx.messages[0], amount: splittedValue * 1e9 }] }));
   }
-  
-  
 
   useEffect(() => {
     function configureTelegram() {

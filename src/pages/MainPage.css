@@ -64,6 +64,13 @@
   /* Not coloured */
 }
 
+.circle.error {
+  background-color: rgb(209, 29, 29) !important;
+  transform: scale(1.1);
+  transition: background-color 0.25s ease;
+
+}
+
 .circle.enabled {
   background-color: #286BEB;
   /* Coloured inside */
