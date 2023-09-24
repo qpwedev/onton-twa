@@ -1,11 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { RoomContext } from "../contexts/RoomContext";
-import { Member as MemberType } from "../types";
+import { Member as MemberType, Room } from "../types";
 
 import "./RoomPage.css";
 import { randomEmoji } from "../utils";
 import { TonConnectButton } from "@tonconnect/ui-react";
+import { ServerURL } from "../constants";
 
 export default function RoomPage() {
   const roomId = window.location.pathname.split("/")[2];
@@ -23,11 +24,34 @@ export default function RoomPage() {
         <div className="room-page-name">{room?.name}</div>
         <div className="room-members-amount">{room.Members.length} members</div>
       </div>
-      {room?.admin_wallet === wallet && (
-        <div className="room-page-admin">You are admin</div>
-      )}
+      {room?.admin_wallet === wallet && <AdminControls room={room} />}
 
       <MembersList members={room.Members} />
+    </div>
+  );
+}
+
+function AdminControls({ room }: { room: Room }) {
+  const [amount, setAmount] = useState(0);
+  const splittedValue = room.Members.length * (amount >= 0 ? amount : 0)
+
+  function handleClick() {
+    
+  }
+
+  return (
+    <div className="room-page-admin-controls">
+      <input
+        className="room-page-admin-controls-amount-input"
+        type="number"
+        step={0.0001}
+        value={amount}
+        onChange={(e) => setAmount(Number.parseFloat(e.target.value))}
+      />
+      <div className="room-page-admin-controls-split-sum">
+        {splittedValue}
+      </div>
+      <button onClick={handleClick}>Send</button>
     </div>
   );
 }
