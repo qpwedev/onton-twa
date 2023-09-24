@@ -137,7 +137,7 @@ function AdminControls({ room }: { room: Room }) {
       <div>{room.password}</div>
       <input
         className="room-page-admin-controls-amount-input"
-        type="number"
+        type="tel"
         value={amount}
         placeholder="TON per Member"
         onChange={handleAmountChange}
