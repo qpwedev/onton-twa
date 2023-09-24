@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import "./CreatePage.css";
 import { useTonConnect } from "../hooks/useTonConnect";
@@ -55,6 +55,32 @@ export default function CreatePage() {
   function handleRoomNameChange(e: React.ChangeEvent<HTMLInputElement>) {
     setRoomName(e.target.value);
   }
+
+  useEffect(() => {
+    function configureTelegram() {
+      if (window.Telegram === undefined) {
+        return;
+      }
+
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        navigate("/");
+      });
+
+      window.Telegram.WebApp.BackButton.show();
+    }
+
+    function cleanUpTelegram() {
+      if (window.Telegram === undefined) {
+        return;
+      }
+
+      window.Telegram.WebApp.BackButton.hide();
+    }
+
+    configureTelegram();
+
+    return cleanUpTelegram;
+  }, []);
 
   return (
     <div className="create-page-wrapper">

@@ -11,6 +11,7 @@ import {
 import { HighLoadAddress, ServerURL } from "../constants";
 
 import "./RoomPage.css";
+import { useNavigate } from "react-router-dom";
 
 const defaultTx = {
   validUntil: Math.floor(Date.now() / 1000) + 600, // unix epoch seconds
@@ -28,6 +29,8 @@ export default function RoomPage() {
     room.Members = [];
     setRoom(room);
   }
+
+  const navigate = useNavigate();
 
   const { wallet } = useTonConnect();
 
@@ -59,7 +62,32 @@ export default function RoomPage() {
 
     fetchData();
 
-    return () => clearInterval(intervalId);
+    function configureTelegram() {
+      if (window.Telegram === undefined) {
+        return;
+      }
+
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        navigate("/");
+      });
+
+      window.Telegram.WebApp.BackButton.show();
+    }
+
+    function cleanUpTelegram() {
+      if (window.Telegram === undefined) {
+        return;
+      }
+
+      window.Telegram.WebApp.BackButton.hide();
+    }
+
+    configureTelegram();
+
+    return () => {
+      clearInterval(intervalId);
+      cleanUpTelegram();
+    };
   }, []);
 
   return (

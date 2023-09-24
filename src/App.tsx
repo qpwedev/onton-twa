@@ -10,8 +10,6 @@ import CreatePage from "./pages/CreatePage";
 import { AdminProvider } from "./contexts/AdminContext";
 
 function App() {
-  const { network } = useTonConnect();
-
   return (
     <AdminProvider>
       <RoomProvider>
