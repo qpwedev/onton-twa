@@ -124,11 +124,12 @@ function AdminControls({ room }: { room: Room }) {
       },
       body: JSON.stringify({
         roomId: room.id,
-        amount: value,
+        amount: value / 1e9,
       }),
     })
       .then((res) => res.json())
       .then((res) => {
+        window.Telegram.WebApp.MainButton.hideProgress();
         alert("Successfuly distributed");
       })
       .catch((err) => {
@@ -140,26 +141,34 @@ function AdminControls({ room }: { room: Room }) {
     tonConnectUi
       .sendTransaction(tx)
       .then((res) => {
-        setTimeout(() => sendDistributeRequest(tx.messages[0].amount), 10000);
+        window.Telegram.WebApp.MainButton.showProgress();
+        setTimeout(() => sendDistributeRequest(tx.messages[0].amount), 5000);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [tonConnectUi, tx]);
 
+  function roundNumber(num: number, decimalPlaces: number = 0): number {
+    const factor = Math.pow(10, decimalPlaces);
+    return Math.round(num * factor) / factor;
+  }
+
   function handleAmountChange(e: React.ChangeEvent<HTMLInputElement>) {
     setAmount(e.target.value);
 
     try {
-      const newAmount = Number.parseFloat(e.target.value);
+      let newAmount = Number.parseFloat(e.target.value);
 
       if (Number.isNaN(newAmount)) {
         return;
       }
 
+      newAmount = roundNumber(newAmount, 6)
       splittedValue = room.Members.length * (newAmount >= 0 ? newAmount : 0);
       const newTx = { ...tx };
-      newTx.messages[0].amount = splittedValue;
+      newTx.messages[0].amount = Math.round(splittedValue * 1e9);
+      console.log(newTx)
       setTx(newTx);
     } catch (err) {
       console.log(err);
@@ -176,6 +185,14 @@ function AdminControls({ room }: { room: Room }) {
       window.Telegram.WebApp.MainButton.setText("Send");
     }
 
+    configureTelegram();
+
+    return () => {
+      window.Telegram.WebApp.MainButton.offClick(handleSubmit);
+    }
+  }, [handleSubmit]);
+
+  useEffect(() => {
     function cleanUpTelegram() {
       if (window.Telegram === undefined) {
         return;
@@ -185,15 +202,15 @@ function AdminControls({ room }: { room: Room }) {
       window.Telegram.WebApp.MainButton.hide();
     }
 
-    configureTelegram();
     return cleanUpTelegram;
-  }, [handleSubmit]);
+  }, []);
 
   useEffect(() => {
-    if (amount > 0) {
+    if (amount > 0 && !window.Telegram.WebApp.MainButton.isVisible) {
       window.Telegram.WebApp.MainButton.show();
-    } else {
+    } else if (amount === 0 && window.Telegram.WebApp.MainButton.isVisible) {
       window.Telegram.WebApp.MainButton.hide();
+    } else {
     }
   }, [amount]);
 
@@ -209,7 +226,7 @@ function AdminControls({ room }: { room: Room }) {
       />
 
       <div className="room-page-admin-controls-split-sum">
-        Total: {splittedValue} TON
+        Total: {splittedValue.toFixed(2)} TON
       </div>
     </div>
   );

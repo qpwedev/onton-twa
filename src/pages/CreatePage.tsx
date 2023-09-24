@@ -48,10 +48,12 @@ export default function CreatePage() {
   }, [roomName, wallet, setAdminRoom, setRoom, navigate]);
 
   useEffect(() => {
-    if (roomName.length > 0) {
+    if (roomName.length > 0 && !window.Telegram.WebApp.MainButton.isVisible) {
       window.Telegram.WebApp.MainButton.onClick(handleSubmit);
       window.Telegram.WebApp.MainButton.setText("Create");
       window.Telegram.WebApp.MainButton.show();
+    } else if (roomName.length === 0) {
+      window.Telegram.WebApp.MainButton.hide();
     }
   }, [roomName]);
 
@@ -78,7 +80,6 @@ export default function CreatePage() {
       console.log("cleaning up create page");
 
       window.Telegram.WebApp.MainButton.offClick(handleSubmit);
-      window.Telegram.WebApp.MainButton.hide();
     }
 
     if (roomName.length > 0) {
@@ -95,6 +96,7 @@ export default function CreatePage() {
     return () => {
       window.Telegram.WebApp.BackButton.offClick(() => navigate("/"));
       window.Telegram.WebApp.BackButton.hide();
+      window.Telegram.WebApp.MainButton.hide();
     };
   }, []);
 

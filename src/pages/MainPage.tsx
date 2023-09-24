@@ -59,7 +59,7 @@ export default function MainPage() {
       <TonConnectButton />
       <div className="numpad">
         <Header wallet={wallet} enabledDots={enabledDots} />
-        <NumPad setEnabledDots={setEnabledDots} />
+        <NumPad wallet={wallet} setEnabledDots={setEnabledDots} />
       </div>
     </div>
   );
@@ -117,8 +117,13 @@ function Circle({ enabled }: { enabled: boolean }) {
   return <div className={`circle ${enabled ? "enabled" : "disabled"}`}></div>;
 }
 
-function NumPad({ setEnabledDots }: { setEnabledDots: Function }) {
+function NumPad({ setEnabledDots, wallet }: { setEnabledDots: Function, wallet: string }) {
   function onClickHandler(e: any) {
+    if (wallet === null || wallet === undefined || wallet === '') {
+      alert("You should connect your TON wallet first");
+      return
+    }
+
     const target = e.target;
     if (target.classList.contains("grid-item")) {
       const num = target.innerHTML;
