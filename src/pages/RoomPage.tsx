@@ -97,7 +97,11 @@ export default function RoomPage() {
       </div>
       <div className="room-page-name-wrapper">
         <div className="room-page-name">{room?.name}</div>
-        <div className="room-members-amount">{room.Members.length} members</div>
+
+        <div className="room-members-amount">
+          <div>Password: {room?.password}</div>
+          <div>Members: {room.Members.length}</div>
+        </div>
       </div>
       {room?.admin_wallet === wallet && <AdminControls room={room} />}
 
@@ -162,7 +166,6 @@ function AdminControls({ room }: { room: Room }) {
 
   return (
     <div className="room-page-admin-controls">
-      <div>{room.password}</div>
       <input
         className="room-page-admin-controls-amount-input"
         type="tel"
@@ -174,7 +177,7 @@ function AdminControls({ room }: { room: Room }) {
       <div className="room-page-admin-controls-split-sum">
         Total: {splittedValue} TON
       </div>
-      <button onClick={handleClick}>Send transaction</button>
+      {/* <button onClick={handleClick}>Send transaction</button> */}
     </div>
   );
 }
@@ -186,7 +189,7 @@ const MembersList: React.FC<MembersListProps> = memo(
         {members !== null && members.length !== 0 ? (
           members.map((member) => <Member key={member.id} member={member} />)
         ) : (
-          <div className="room-page-no-members">No members yet!</div>
+          <div className="room-page-no-members">No Members</div>
         )}
       </div>
     );

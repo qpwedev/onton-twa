@@ -1,5 +1,13 @@
 /* text */
-.room-page-no-members {}
+.room-page-no-members {
+
+    text-align: center;
+
+    font-size: 2rem;
+    font-weight: bold;
+
+    color: #d5d5d5;
+}
 
 
 .room-page-name {}
@@ -29,6 +37,10 @@ a {
 .room-members-amount {
     font-weight: 200;
     font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 
