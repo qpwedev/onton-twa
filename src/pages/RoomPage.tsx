@@ -78,17 +78,17 @@ export default function RoomPage() {
   const { room, setRoom } = useContext(RoomContext);
 
   const { wallet } = useTonConnect();
-  mockMembers?.push({
-    id: "current-member",
-    address: wallet,
-  });
 
   return (
     <div className="room-page-wrapper">
-      <div className="room-page-name">{room?.name}</div>
-      {room?.admin_wallet !== wallet && (
+      <div className="room-page-name-wrapper">
+        <div className="room-page-name">{room?.name}</div>
+        <div className="room-members-amount">{mockMembers.length} members</div>
+      </div>
+      {room?.admin_wallet === wallet && (
         <div className="room-page-admin">You are admin</div>
       )}
+
       <MembersList members={mockMembers} />
     </div>
   );
@@ -104,7 +104,7 @@ export default function RoomPage() {
 
 function MembersList({ members }: { members: MemberType[] | null }) {
   return (
-    <div>
+    <div className="members-list">
       {members !== null && members?.length !== 0 ? (
         members.map((member) => <Member member={member} />)
       ) : (

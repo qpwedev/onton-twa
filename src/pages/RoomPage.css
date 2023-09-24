@@ -1,15 +1,9 @@
 /* text */
-.room-page-no-members {
+.room-page-no-members {}
 
-}
+.room-page-wrapper {}
 
-.room-page-wrapper {
-    
-}
-
-.room-page-name {
-    
-}
+.room-page-name {}
 
 .room-page-member {
     display: flex;
@@ -19,4 +13,64 @@
 a {
     text-decoration: none;
     color: black;
+}
+
+
+.room-page-wrapper {
+    padding: 2rem;
+
+}
+
+.room-members-amount {
+    font-weight: 200;
+    font-size: 0.8rem;
+}
+
+
+.room-page-name-wrapper {
+    padding: 1rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    background: #000000;
+}
+
+.room-page-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.members-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.room-page-member {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+}
+
+
+.room-page-member-emoji {
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+
 }
